@@ -2,29 +2,519 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Église</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Église Royaume de Dieu | Assemblées de Dieu</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
+            background: linear-gradient(145deg, #f8f5f0 0%, #e9e2d8 100%);
+            font-family: 'Inter', sans-serif;
+            color: #1e2a2f;
+            padding: 2rem 1.5rem;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        /* En-tête */
+        .header {
             text-align: center;
-            background-color: #f4f4f4;
-            padding: 20px;
+            margin-bottom: 3rem;
+            border-bottom: 2px solid rgba(183, 128, 63, 0.3);
+            padding-bottom: 1.5rem;
         }
-        h1 {
-            color: #2c3e50;
+        .logo-ad {
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.5rem;
         }
-        p {
-            font-size: 18px;
+        .ad-badge {
+            background: #b57c2c;
+            color: #fff;
+            font-weight: 800;
+            font-size: 2rem;
+            font-family: 'Playfair Display', serif;
+            padding: 0.2rem 1rem;
+            border-radius: 60px;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .ad-slogan {
+            font-size: 1.3rem;
+            font-weight: 600;
+            background: #fff1e0;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            color: #a05c15;
+            letter-spacing: 1px;
+        }
+        .eglise-nom h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2c4b3e;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.05);
+        }
+        .eglise-nom p {
+            font-style: italic;
+            color: #5e3a1f;
+            font-weight: 400;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+        /* Grille des cartes */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0 2rem;
+        }
+        .card {
+            background: rgba(255, 252, 245, 0.95);
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.25s ease, box-shadow 0.3s;
+            overflow: hidden;
+            border: 1px solid rgba(255, 215, 170, 0.6);
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 40px -14px rgba(0, 0, 0, 0.3);
+        }
+        .card-header {
+            background: linear-gradient(135deg, #2c5a48 0%, #1e3e33 100%);
+            padding: 1rem 1.5rem;
+            color: white;
+        }
+        .card-header h2 {
+            font-weight: 700;
+            font-size: 1.7rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .card-header h2 i {
+            font-size: 1.7rem;
+            color: #f3bc6c;
+        }
+        .card-body {
+            padding: 1.6rem 1.5rem 1.8rem;
+        }
+        /* Lecteur audio personnalisé */
+        .audio-player {
+            background: #fef7e8;
+            border-radius: 28px;
+            padding: 1rem 1.2rem;
+            margin-top: 0.5rem;
+            box-shadow: inset 0 0 0 1px rgba(255,255,200,0.8), 0 6px 12px rgba(0,0,0,0.05);
+        }
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 500;
+            font-family: monospace;
+            color: #5a4a32;
+            margin-bottom: 8px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e2d5c0;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 8px 0 14px 0;
+            position: relative;
+        }
+        .progress-filled {
+            width: 0%;
+            height: 100%;
+            background: #b57c2c;
+            border-radius: 10px;
+            transition: width 0.1s linear;
+        }
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            justify-content: center;
+            margin: 12px 0 6px;
+        }
+        .btn-play {
+            background: #b57c2c;
+            border: none;
+            color: white;
+            font-size: 1.4rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-play:hover {
+            background: #9a6222;
+            transform: scale(1.02);
+        }
+        .duration-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: #e9dfcf;
+            padding: 4px 12px;
+            border-radius: 40px;
+            color: #3f2c18;
+        }
+        .live-badge {
+            background: #d64531;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 3px 10px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-left: 12px;
+            vertical-align: middle;
+        }
+        .subnote {
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 12px;
+            color: #8f7a62;
+            border-top: 1px dashed #eedbba;
+            padding-top: 10px;
+        }
+        .download-link {
+            display: inline-block;
+            margin-top: 14px;
+            background: #e2d5c0;
+            padding: 6px 14px;
+            border-radius: 30px;
+            text-decoration: none;
+            color: #3f2c18;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .download-link:hover {
+            background: #d0c0a5;
+        }
+        video {
+            border-radius: 24px;
+            width: 100%;
+            background: #000;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #cfbc9f;
+            color: #5b4b33;
+            font-size: 0.85rem;
+        }
+        @media (max-width: 680px) {
+            body { padding: 1rem; }
+            .card-header h2 { font-size: 1.4rem; }
+            .controls { gap: 12px; }
+            .btn-play { width: 44px; height: 44px; }
+        }
+        .error-msg {
+            font-size: 0.7rem;
+            text-align: center;
+            color: #b1624b;
+            margin-top: 8px;
+            background: #ffe6dd;
+            border-radius: 20px;
+            padding: 4px;
         }
     </style>
 </head>
-
 <body>
+<div class="container">
+    <div class="header">
+        <div class="logo-ad">
+            <div class="ad-badge">AD</div>
+            <div class="ad-slogan">TOUT L'ÉVANGILE</div>
+        </div>
+        <div class="eglise-nom">
+            <h1>Église Royaume de Dieu</h1>
+            <p>La parole de Dieu pour transformer les vies</p>
+        </div>
+    </div>
 
-    <h1>Bienvenue à notre église</h1>
-    <p>Notre site est en ligne 24h/24 gratuitement.</p>
+    <div class="grid">
+        <!-- ========== CARTE AUDIO : CULTÉ EN DIRECT ========== -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-broadcast-tower"></i> Culté en direct <span class="live-badge">LIVE</span></h2>
+            </div>
+            <div class="card-body">
+                <div class="audio-player" data-player-id="livePlayer">
+                    <div class="time-info">
+                        <span class="current-time">0:00</span>
+                        <span class="total-time">0:08</span>
+                    </div>
+                    <div class="progress-bar" data-progress-id="live">
+                        <div class="progress-filled"></div>
+                    </div>
+                    <div class="controls">
+                        <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                        <span class="duration-text"><i class="far fa-clock"></i> 0:08</span>
+                    </div>
+                    <div class="subnote">Prédication vivante · direct</div>
+                    <!-- Le lien de téléchargement sera inséré automatiquement par JS -->
+                </div>
+            </div>
+        </div>
 
+        <!-- ========== CARTE AUDIO : CULTÉ DU DIMANCHE ========== -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-church"></i> Culté du dimanche</h2>
+            </div>
+            <div class="card-body">
+                <div class="audio-player" data-player-id="sundayPlayer">
+                    <div class="time-info">
+                        <span class="current-time">0:00</span>
+                        <span class="total-time">1:11</span>
+                    </div>
+                    <div class="progress-bar" data-progress-id="sunday">
+                        <div class="progress-filled"></div>
+                    </div>
+                    <div class="controls">
+                        <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                        <span class="duration-text"><i class="far fa-clock"></i> 1:11</span>
+                    </div>
+                    <div class="subnote">Louange et adoration</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== CARTE AUDIO : ENSEIGNEMENT BIBLIQUE ========== -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-bible"></i> Enseignement biblique</h2>
+            </div>
+            <div class="card-body">
+                <div class="audio-player" data-player-id="teachingPlayer">
+                    <div class="time-info">
+                        <span class="current-time">0:00</span>
+                        <span class="total-time">4:12</span>
+                    </div>
+                    <div class="progress-bar" data-progress-id="teaching">
+                        <div class="progress-filled"></div>
+                    </div>
+                    <div class="controls">
+                        <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                        <span class="duration-text"><i class="far fa-clock"></i> 4:12</span>
+                    </div>
+                    <div class="subnote">Étude verset par verset</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== CARTE AUDIO : MOMENT DE PRIÈRE ========== -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-praying-hands"></i> Moment de prière</h2>
+            </div>
+            <div class="card-body">
+                <div class="audio-player" data-player-id="prayerPlayer">
+                    <div class="time-info">
+                        <span class="current-time">0:00</span>
+                        <span class="total-time">2:30</span>
+                    </div>
+                    <div class="progress-bar" data-progress-id="prayer">
+                        <div class="progress-filled"></div>
+                    </div>
+                    <div class="controls">
+                        <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                        <span class="duration-text"><i class="far fa-clock"></i> 2:30</span>
+                    </div>
+                    <div class="subnote">Élevez vos cœurs</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== EXEMPLE DE CARTE VIDÉO (avec téléchargement) ========== -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-video"></i> Prédication – La foi qui vainc</h2>
+            </div>
+            <div class="card-body">
+                <video controls poster="https://via.placeholder.com/640x360?text=Prédication">
+                    <source src="media/predication_foi.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la vidéo.
+                </video>
+                <div class="subnote">Dimanche 12 mars 2026 – Pasteur Marc</div>
+                <a href="media/predication_foi.mp4" download class="download-link">
+                    <i class="fas fa-download"></i> Télécharger la vidéo (MP4)
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© Assemblées de Dieu — Royaume de Dieu | La parole qui transforme</p>
+        <p style="margin-top: 5px; font-size:0.7rem;">📖 « Ta parole est une lampe à mes pieds » Psaume 119:105</p>
+    </div>
+</div>
+
+<script>
+    // ================= CONFIGURATION DES AUDIOS =================
+    // Remplacez les URLs (src et downloadUrl) par vos propres fichiers MP3.
+    // Placez vos fichiers dans un dossier "media/" à côté de ce fichier HTML.
+    const audioConfig = {
+        livePlayer: {
+            src: "media/direct.mp3",
+            downloadUrl: "media/direct.mp3",   // même fichier pour téléchargement
+            durationSec: 8,
+            displayDuration: "0:08"
+        },
+        sundayPlayer: {
+            src: "media/culte_dimanche.mp3",
+            downloadUrl: "media/culte_dimanche.mp3",
+            durationSec: 71,
+            displayDuration: "1:11"
+        },
+        teachingPlayer: {
+            src: "media/enseignement.mp3",
+            downloadUrl: "media/enseignement.mp3",
+            durationSec: 252,
+            displayDuration: "4:12"
+        },
+        prayerPlayer: {
+            src: "media/priere.mp3",
+            downloadUrl: "media/priere.mp3",
+            durationSec: 150,
+            displayDuration: "2:30"
+        }
+    };
+
+    // Stockage des instances audio
+    const players = {};
+
+    // Format mm:ss
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return "0:00";
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' + secs : secs}`;
+    }
+
+    // Initialisation de chaque lecteur audio
+    document.querySelectorAll('.audio-player').forEach((playerDiv) => {
+        const playerId = playerDiv.getAttribute('data-player-id');
+        if (!playerId || !audioConfig[playerId]) return;
+
+        const config = audioConfig[playerId];
+        const audioElem = new Audio();
+        audioElem.preload = 'metadata';
+        audioElem.src = config.src;
+        audioElem.crossOrigin = "anonymous";
+
+        const currentTimeSpan = playerDiv.querySelector('.current-time');
+        const totalTimeSpan = playerDiv.querySelector('.total-time');
+        const progressFill = playerDiv.querySelector('.progress-filled');
+        const progressBar = playerDiv.querySelector('.progress-bar');
+        const playBtn = playerDiv.querySelector('.btn-play');
+
+        totalTimeSpan.textContent = config.displayDuration;
+
+        // Mise à jour de la barre de progression
+        function updateProgress() {
+            let current = audioElem.currentTime;
+            let totalReal = audioElem.duration;
+            let fillPercent = 0;
+            if (totalReal && isFinite(totalReal) && totalReal > 0) {
+                fillPercent = (current / totalReal) * 100;
+                currentTimeSpan.textContent = formatTime(current);
+            } else {
+                // fallback sur configuration
+                fillPercent = (current / config.durationSec) * 100;
+                currentTimeSpan.textContent = formatTime(current);
+            }
+            progressFill.style.width = Math.min(100, fillPercent) + "%";
+        }
+
+        audioElem.addEventListener('timeupdate', updateProgress);
+        audioElem.addEventListener('ended', () => {
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            progressFill.style.width = "0%";
+            currentTimeSpan.textContent = formatTime(0);
+        });
+
+        // Clic sur barre de progression
+        if (progressBar) {
+            progressBar.addEventListener('click', (e) => {
+                const rect = progressBar.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const ratio = clickX / rect.width;
+                let newTime;
+                if (audioElem.duration && isFinite(audioElem.duration) && audioElem.duration > 0) {
+                    newTime = ratio * audioElem.duration;
+                } else {
+                    newTime = ratio * config.durationSec;
+                }
+                audioElem.currentTime = newTime;
+                updateProgress();
+            });
+        }
+
+        // Play / Pause
+        playBtn.addEventListener('click', () => {
+            if (audioElem.paused) {
+                audioElem.play().catch(err => {
+                    console.warn("Erreur lecture:", err);
+                    let errorDiv = playerDiv.querySelector('.error-msg');
+                    if (!errorDiv) {
+                        errorDiv = document.createElement('div');
+                        errorDiv.className = 'error-msg';
+                        playerDiv.appendChild(errorDiv);
+                    }
+                    errorDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Fichier audio introuvable. Remplacez le chemin dans audioConfig.';
+                    setTimeout(() => { if(errorDiv) errorDiv.remove(); }, 3000);
+                });
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                audioElem.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        });
+
+        // ========== AJOUT AUTOMATIQUE DU LIEN DE TÉLÉCHARGEMENT ==========
+        if (config.downloadUrl) {
+            const downloadLink = document.createElement('a');
+            downloadLink.href = config.downloadUrl;
+            downloadLink.download = '';
+            downloadLink.className = 'download-link';
+            downloadLink.innerHTML = '<i class="fas fa-download"></i> Télécharger l\'audio';
+            const subnote = playerDiv.querySelector('.subnote');
+            if (subnote) {
+                subnote.insertAdjacentElement('afterend', downloadLink);
+            } else {
+                playerDiv.appendChild(downloadLink);
+            }
+        }
+
+        players[playerId] = { audio: audioElem, btn: playBtn };
+    });
+
+    // Petit message d'aide dans la console
+    console.log("✅ Lecteurs prêts. Pour vos propres fichiers, modifiez audioConfig et les sources des vidéos.");
+</script>
 </body>
 </html>
